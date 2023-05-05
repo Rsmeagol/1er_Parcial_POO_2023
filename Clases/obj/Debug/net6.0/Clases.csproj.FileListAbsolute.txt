@@ -1,0 +1,12 @@
+E:\POO\1er_Parcial_POO_2023\Clases\bin\Debug\net6.0\Clases.deps.json
+E:\POO\1er_Parcial_POO_2023\Clases\bin\Debug\net6.0\Clases.dll
+E:\POO\1er_Parcial_POO_2023\Clases\bin\Debug\net6.0\Clases.pdb
+E:\POO\1er_Parcial_POO_2023\Clases\obj\Debug\net6.0\Clases.csproj.AssemblyReference.cache
+E:\POO\1er_Parcial_POO_2023\Clases\obj\Debug\net6.0\Clases.GeneratedMSBuildEditorConfig.editorconfig
+E:\POO\1er_Parcial_POO_2023\Clases\obj\Debug\net6.0\Clases.AssemblyInfoInputs.cache
+E:\POO\1er_Parcial_POO_2023\Clases\obj\Debug\net6.0\Clases.AssemblyInfo.cs
+E:\POO\1er_Parcial_POO_2023\Clases\obj\Debug\net6.0\Clases.csproj.CoreCompileInputs.cache
+E:\POO\1er_Parcial_POO_2023\Clases\obj\Debug\net6.0\Clases.dll
+E:\POO\1er_Parcial_POO_2023\Clases\obj\Debug\net6.0\refint\Clases.dll
+E:\POO\1er_Parcial_POO_2023\Clases\obj\Debug\net6.0\Clases.pdb
+E:\POO\1er_Parcial_POO_2023\Clases\obj\Debug\net6.0\ref\Clases.dll
