@@ -1,11 +1,12 @@
-public abstract class Cuenta
-{
-    public Cuenta(string numeroCuenta, eTipoCuenta tipocuenta, double saldo){
-        Numero = numeroCuenta;
-        TipoCuenta = tipocuenta;
-        Saldo = saldo;
+public abstract class Cuenta{
+    public Cuenta( eTipoCuenta tipocuenta, double saldo){
+        this.TipoCuenta= tipocuenta;
+        this.Saldo = saldo;
+        
     }
-    
+    public Cuenta( eTipoCuenta tipocuenta, double saldo,string numeroCuenta):this(tipocuenta,saldo){
+        this.Numero= numeroCuenta;
+    }
     public string Numero{get;}
     public enum eTipoCuenta{
         CajaAhorro,
@@ -15,49 +16,74 @@ public abstract class Cuenta
     public eTipoCuenta TipoCuenta{get;}
     public double Saldo{get;}
 
-    public abstract void CobrarMantenimiento(double mantenimiento);
-    
-    
-
-}
-
-public class CajaAhorro:Cuenta{
-public CajaAhorro(string numeroCuenta, eTipoCuenta tipocuenta, double saldo):base(numeroCuenta,tipocuenta,saldo){
-
-}
-public override void CobrarMantenimiento(double mantenimiento){
-    double Descubierto = 0;
-    if(this.Saldo <= mantenimiento){
-        Descubierto = this.Saldo - mantenimiento;
-        Console.WriteLine($"Verificar Descubierto {Descubierto}");
+    public double AplicarCredito(Single credito){
+        return this.Saldo + credito;
     }
-    else
-    {
+    public double AplicarDebito(Single debito){
+        double saldodebitado = this.Saldo;
+        
+
+        if(this.Saldo <= debito){
+            saldodebitado -= debito;
+            Console.WriteLine($"Verificar Descubierto: {saldodebitado}");
+            this.Descubierto = saldodebitado;
+            return saldodebitado;
+        }
+        else
+        {
+        saldodebitado -= debito;
+        return saldodebitado;
+        }
+    }
+    public double Descubierto{get;set;}
+
+    public abstract double CobrarMantenimiento();
+
+}
+public class CajaAhorro:Cuenta{
+    public CajaAhorro(eTipoCuenta tipocuenta, double saldo,string numeroCuenta):base(tipocuenta,saldo,numeroCuenta){
         
     }
-}
-}
+    public override double CobrarMantenimiento(){
+        double saldoMantenimientoCobrado = this.Saldo;
+        Single mantenimiento = 1500;
 
+        saldoMantenimientoCobrado = AplicarDebito(mantenimiento);
+
+        Console.WriteLine($"Se a realizado el cobro del mantenimiento: ${mantenimiento}");
+
+        return saldoMantenimientoCobrado;
+    }
+    
+}
 public class CuentaCorriente:Cuenta{
-public CuentaCorriente(string numeroCuenta, eTipoCuenta tipocuenta, double saldo):base(numeroCuenta,tipocuenta,saldo){
-    
-}
-public override void CobrarMantenimiento(double mantenimiento){
-    
-}
-}
+    public CuentaCorriente(eTipoCuenta tipocuenta, double saldo,string numeroCuenta):base(tipocuenta,saldo,numeroCuenta){
+        
+    }
+    public override double CobrarMantenimiento(){
+        double saldoMantenimientoCobrado = this.Saldo;
+        Single mantenimiento = 1500;
 
+        saldoMantenimientoCobrado = AplicarDebito(mantenimiento);
+
+        Console.WriteLine($"Se a realizado el cobro del mantenimiento: ${mantenimiento}");
+
+        return saldoMantenimientoCobrado;
+    }
+    
+}
 public class CuentaSueldo:Cuenta{
-public CuentaSueldo(string numeroCuenta, eTipoCuenta tipocuenta, double saldo):base(numeroCuenta,tipocuenta,saldo){
+    public CuentaSueldo(eTipoCuenta tipocuenta, double saldo,string numeroCuenta):base(tipocuenta,saldo,numeroCuenta){
+        
+    }
+    public override double CobrarMantenimiento(){
+            return this.Saldo;
+    }
     
-}
-public override void CobrarMantenimiento(double mantenimiento){
     
-}
 }
 
-public class Cliente
-{
+public class Cliente{
     private List<Cuenta> Cuentas;
 
     public Cliente(string usuario){
@@ -69,9 +95,25 @@ public class Cliente
     public string Clave{get; private set;}
     public double LimiteCredito{get;set;}
 
+    public double Descubierto{get;set;}
+
+    private Cuenta cuentaabuscar;
+    public Cuenta BuscarCuenta(string nrocuenta){
+        cuentaabuscar = null;
+        foreach(var cuent in Cuentas){
+            if (cuent.Numero == nrocuenta){
+                cuentaabuscar = cuent;
+            }
+            }
+            return cuentaabuscar;
+    }
+    public Cuenta cuenta{get{
+            return cuentaabuscar;
+    }}
+
     public int cantidadCuentas{
         get{
-            var cuentasTotal =0;
+            var cuentasTotal = 0;
                 foreach(var cuenta in Cuentas)
                 {
                     cuentasTotal++;
@@ -79,8 +121,14 @@ public class Cliente
             return cuentasTotal;
         }
     }
-    
-    
+    public double DescubiertoxCliente(){
+        double descubiertoTotal = 0;
+        foreach(var cuen in Cuentas){
+            descubiertoTotal+= cuen.Descubierto;
+        }
+        return descubiertoTotal;
+    }
+
     public void CambiarClave(string ClaveNueva){
         this.Clave=ClaveNueva;
     }
@@ -92,7 +140,6 @@ public class Cliente
     }
 
 }
-
 public class Movimiento
 {
     public DateTime Fecha{get;set;}
